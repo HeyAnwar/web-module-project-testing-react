@@ -1,7 +1,35 @@
+import React from 'react'
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
+import Show from '../Show';
+import Display from '../Display';
 
+const testShow = {
+    name: 'Lost',
+    summary: 'The survivors of Oceanic Flight 815 were 1,000 miles off course when they crashed on a lush, mysterious island.',
+    seasons: [{
+        id: 0,
+        name: 'Season 1',
+        episodes: []
+    }]
+}
 
+test('display component renders without any passed in props.', ()=> {
+    render(<Display/>)
+})
 
+test('renders testShow and no selected Season without errors', ()=>{
+    render(<Show show={testShow} selectedSeason={'none'}/>)
+});
+
+test('testing optional function', ()=> {
+    const testClick = jest.fn()
+    render(<Display handleClick={testClick} />)
+    const button = screen.getByRole('button')
+    userEvent.click(button)
+    waitFor(() => expect(testClick).toHaveBeenCalledTimes(1))
+})
 
 
 
